@@ -1,10 +1,13 @@
 import os
 import sys
 import json
+import time
 from datetime import datetime
 from tkinter import *
 from tkinter import ttk
 
+from security_measure import security_measure
+from integrity_identifier import IntegrityIdentifier
 
 class password_prompt:
 
@@ -14,13 +17,17 @@ class password_prompt:
 
         self.access_status_file = "database/access_status.json"
         self.password_file = "database/password.json"
+        self.pids_file = "database/pids.json"
 
         self.access_attempts = 0
         self.access_granted = False
 
+        self.SECURETIME = 21600
+
     def confirm_passcode(self):
         access_granted = False
         entered_passcode = str(self.password.get())
+        print(entered_passcode)
         time_now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
         replacement_set = dict()
@@ -45,13 +52,13 @@ class password_prompt:
             records = record_dict['records']
 
             if access_granted:
-                access_status_dict['accessed'] = 0
+                access_status_dict['accessed'] = 1
                 access_status_dict['last_access_attempt'] = time_now
 
                 records.insert(0, f"Access Granted - {time_now}")
                 record_dict['records'] = records
             else:
-                access_status_dict['accessed'] = 1
+                access_status_dict['accessed'] = 0
                 access_status_dict['last_access_attempt'] = time_now
 
                 records.insert(0, f"Access Denied - {time_now} -> {entered_passcode}")
@@ -86,14 +93,27 @@ class password_prompt:
             self.win.attributes('-topmost', True)
 
             if self.access_granted == True:
-                return self.access_granted
+                # disable security -> granted access
+                return True
+
             elif self.access_granted == False and self.access_attempts >= 3:
-                return self.access_granted
+                # activate security measures
+                s = security_measure()
+                s.activate_security_measure()
+                self.access_attempts = 0
+                self.win.destroy()
+
+                return False
 
             self.win.update()
-
             # self.win.mainloop()
 
 if __name__ == "__main__":
-    program_runner = password_prompt()
-    gate = program_runner.prompt_password()
+    ii = IntegrityIdentifier()
+    ii.load_pid_to_file(os.path.basename(__file__), os.getpid())
+
+    access_granted = False
+
+    while access_granted == False:
+        program_runner = password_prompt()
+        access_granted = program_runner.prompt_password()

@@ -2,11 +2,29 @@
     "access_status": {
         "accessed": 1,
         "severity": 0,
-        "last_access_attempt": "11/20/2021, 00:25:10",
+        "last_access_attempt": "11/20/2021, 14:30:33",
         "access_code": "0"
     },
     "access_record": {
         "records": [
+            "Access Granted - 11/20/2021, 14:30:33",
+            "Access Granted - 11/20/2021, 14:28:17",
+            "Access Granted - 11/20/2021, 14:01:12",
+            "Access Denied - 11/20/2021, 14:00:11 -> 132215",
+            "Access Denied - 11/20/2021, 14:00:10 -> 132215",
+            "Access Denied - 11/20/2021, 14:00:10 -> 132215",
+            "Access Denied - 11/20/2021, 13:59:09 -> fdsa",
+            "Access Denied - 11/20/2021, 13:59:09 -> fdsa",
+            "Access Denied - 11/20/2021, 13:59:08 -> fdsa",
+            "Access Granted - 11/20/2021, 13:56:32",
+            "Access Granted - 11/20/2021, 13:37:45",
+            "Access Denied - 11/20/2021, 13:37:33 -> fdas",
+            "Access Denied - 11/20/2021, 13:37:33 -> fdas",
+            "Access Denied - 11/20/2021, 13:37:32 -> fdas",
+            "Access Denied - 11/20/2021, 02:49:41 -> gsffdsg",
+            "Access Denied - 11/20/2021, 02:49:40 -> gsffdsg",
+            "Access Denied - 11/20/2021, 02:49:38 -> gsf",
+            "Access Granted - 11/20/2021, 02:34:59",
             "Access Granted - Sample Date"
         ]
     }
