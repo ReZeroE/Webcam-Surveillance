@@ -1,0 +1,13 @@
+{
+    "access_status": {
+        "accessed": 1,
+        "severity": 0,
+        "last_access_attempt": "11/20/2021, 00:25:10",
+        "access_code": "0"
+    },
+    "access_record": {
+        "records": [
+            "Access Granted - Sample Date"
+        ]
+    }
+}
