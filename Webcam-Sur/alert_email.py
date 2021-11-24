@@ -23,8 +23,6 @@ class AlertEmail:
     def send_email(self):
         EMAIL_ADDRESS = "sightekbots@gmail.com"
         EMAIL_PASS = "sightekBOTS"
-        #EMAIL_ADDRESS = "AgroSeekTest@gmail.com"
-        #EMAIL_PASS = "AgroSeekTest123"
 
         img_file_name = "test.jpg"
         print(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name))
