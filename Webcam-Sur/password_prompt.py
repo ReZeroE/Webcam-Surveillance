@@ -24,6 +24,18 @@ class password_prompt:
 
         self.SECURETIME = 21600
 
+
+    def reset_access(self):
+        gen_dict = dict()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), self.access_status_file), 'r', encoding="utf-8") as rf:
+            gen_dict = json.load(rf)
+
+        gen_dict['access_status']['accessed'] = 0
+
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), self.access_status_file), 'w', encoding="utf-8") as wf:
+            json.dump(gen_dict, wf, ensure_ascii=False, indent = 4)
+
+
     def confirm_passcode(self):
         access_granted = False
         entered_passcode = str(self.password.get())
@@ -78,11 +90,13 @@ class password_prompt:
         self.access_granted = access_granted
 
     def prompt_password(self) -> bool:
+        self.win.configure(background='#302b2b')
         self.win.attributes('-fullscreen', True)
         self.win.attributes('-topmost', True)
 
         entry = Entry(self.win, width=25, textvariable=self.password, show="*")
         entry.pack(pady=((int(self.win.winfo_screenheight()/2) - 100), 0))
+        entry.configure(background='black')
 
         button = ttk.Button(self.win, text="Confirm Password", command=self.confirm_passcode)
         button.pack(pady=10)
@@ -91,6 +105,7 @@ class password_prompt:
             # ensure program is on top
             self.win.attributes('-fullscreen', True)
             self.win.attributes('-topmost', True)
+            self.win.configure(background='#302b2b')
 
             if self.access_granted == True:
                 # disable security -> granted access
@@ -116,4 +131,5 @@ if __name__ == "__main__":
 
     while access_granted == False:
         program_runner = password_prompt()
+        program_runner.reset_access()
         access_granted = program_runner.prompt_password()

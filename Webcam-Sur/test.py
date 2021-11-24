@@ -1,11 +1,5 @@
+import os
+import psutil
 
-
-class a:
-    def __init__(self):
-        self.val = "hello"
-
-    def p(self):
-        print(self.val)
-
-a = a()
-a.p()
+fan = psutil.disk_usage(path=os.path.dirname(os.path.abspath(__file__)))
+print(fan.percent)
