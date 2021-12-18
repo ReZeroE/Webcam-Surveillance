@@ -24,14 +24,14 @@ class AlertEmail:
         EMAIL_ADDRESS = "sightekbots@gmail.com"
         EMAIL_PASS = "sightekBOTS"
 
-        img_file_name = "test.jpg"
-        print(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name))
+        img_file_name = "image-capture.jpg"
+        # print(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name))
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name), 'rb') as f:
             img_data = f.read()
 
 
         with smtplib.SMTP("smtp.gmail.com", 587) as smtp_conn:
-            img_filename = 'test.jpg'
+            img_filename = 'image-capture.jpg'
             time_now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
             msg = MIMEMultipart()

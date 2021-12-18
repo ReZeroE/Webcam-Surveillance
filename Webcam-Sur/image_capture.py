@@ -6,4 +6,4 @@ if s:    # frame captured without any errors
     namedWindow("cam-test", WINDOW_AUTOSIZE)
     imshow("cam-test",img)
     destroyWindow("cam-test")
-    imwrite("test.jpg",img) 
+    imwrite("image-capture.jpg",img) 

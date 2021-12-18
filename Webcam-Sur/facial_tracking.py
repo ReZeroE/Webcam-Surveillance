@@ -104,9 +104,9 @@ class Detection:
                         cv2.namedWindow("cam-test", cv2.WINDOW_AUTOSIZE)
                         cv2.imshow("cam-test",img)
                         cv2.destroyWindow("cam-test")
-                        cv2.imwrite("test.jpg",img) 
+                        cv2.imwrite("image-capture.jpg",img) 
 
-                    subprocess.run(["start", "cmd", "/k", f"py -{PYTHONVERSION} ./alert_email.py"], shell = True)
+                    subprocess.run(f"py -{PYTHONVERSION} ./alert_email.py", shell = True)
 
                     print("Start recording...")
                     self.initialize_recording()

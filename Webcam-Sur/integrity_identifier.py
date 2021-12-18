@@ -45,9 +45,9 @@ class IntegrityIdentifier:
 
         for script in restart_list:
             if script == "password_prompt.py":
-                subprocess.Popen(["start", "cmd", "/k", f"py -{PYTHONVERSION} ./password_prompt.py"], shell = True)
+                subprocess.Popen(f"py -{PYTHONVERSION} ./password_prompt.py", shell = True)
             elif script == "facial_tracking.py":
-                subprocess.Popen(["start", "cmd", "/k", f"py -{PYTHONVERSION} ./facial_tracking.py"], shell = True)
+                subprocess.Popen(f"py -{PYTHONVERSION} ./facial_tracking.py", shell = True)
 
     def get_access_status(self):
         status_dict = dict()

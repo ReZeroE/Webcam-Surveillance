@@ -39,7 +39,6 @@ class password_prompt:
     def confirm_passcode(self):
         access_granted = False
         entered_passcode = str(self.password.get())
-        print(entered_passcode)
         time_now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
         replacement_set = dict()
