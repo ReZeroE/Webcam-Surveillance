@@ -60,3 +60,7 @@ if __name__ == "__main__":
     req_validator = ReqValidator()
     req_validator.validate_python_version()
     installed_lib = req_validator.validate_libraries()
+
+    if installed_lib:
+        print("Library validation complete. All required Libraries has been sucessfully installed.\nProgram restart needed.")
+        sys.exit(0)
