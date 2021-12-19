@@ -1,17 +1,12 @@
 {
     "access_status": {
-        "accessed": 1,
+        "accessed": 0,
         "severity": 0,
-        "last_access_attempt": "12/18/2021, 00:37:18",
+        "last_access_attempt": "12/18/2021, 21:43:48",
         "access_code": "0"
     },
     "access_record": {
         "records": [
-            "Access Granted - 12/18/2021, 00:37:18",
-            "Access Granted - 12/18/2021, 00:33:34",
-            "Access Granted - 12/18/2021, 00:31:55",
-            "Access Granted - 12/18/2021, 00:29:44",
-            "Access Granted - 12/18/2021, 00:25:49",
             "Access Granted - Sample Date"
         ]
     }

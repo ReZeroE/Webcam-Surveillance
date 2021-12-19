@@ -26,14 +26,20 @@ class IntegrityIdentifier:
             json.dump(temp_record_dict, wf, ensure_ascii=False, indent = 4)
         
 
-    def check_program_integrity(self):
+    def check_program_integrity(self, suppress_pass_prompt=False, suppress_facial_tracking=False):
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), self.pids_path), 'r', encoding="utf-8") as rf:
             self.record_dict = json.load(rf)
 
         restart_needed = []
         for process_name, pid in self.record_dict.items():
             if psutil.pid_exists(pid) == False and process_name != "placeholder":
-                restart_needed.append(process_name)
+
+                if suppress_facial_tracking and process_name == "facial_tracking.py":
+                    continue
+                elif suppress_pass_prompt and process_name == "password_prompt.py":
+                    continue
+                else:
+                    restart_needed.append(process_name)
 
         print(f"Restart needed: {restart_needed}")
         return restart_needed
@@ -64,7 +70,7 @@ if __name__ == "__main__":
     ii = IntegrityIdentifier()
     while True:
         sleep(3)
-        restart_list = ii.check_program_integrity()
+        restart_list = ii.check_program_integrity(suppress_pass_prompt=True, suppress_facial_tracking=False)
 
         if len(restart_list) == 0:
             pass

@@ -14,7 +14,7 @@ from email.mime.multipart import MIMEMultipart
 
 class AlertEmail:
     def __init__(self):
-        self.receiver_emails = ["kevinliu@vt.edu"]
+        self.receiver_emails = ["kevinliu@vt.edu"] # "tongge001127@gmail.com"
 
         self.email_title = "Unauthorized Access Detected"
         self.email_content = "Warning -> "
@@ -24,14 +24,26 @@ class AlertEmail:
         EMAIL_ADDRESS = "sightekbots@gmail.com"
         EMAIL_PASS = "sightekBOTS"
 
-        img_file_name = "image-capture.jpg"
+        img_filename0 = 'image-capture(0).jpg'
+        img_filename1 = 'image-capture(1).jpg'
+        img_filename2 = 'image-capture(2).jpg'
+        img_filename3 = 'image-capture(3).jpg'
+        img_filename4 = 'image-capture(4).jpg'
+
         # print(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name))
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_file_name), 'rb') as f:
-            img_data = f.read()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_filename0), 'rb') as f:
+            img_data0 = f.read()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_filename1), 'rb') as f:
+            img_data1 = f.read()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_filename2), 'rb') as f:
+            img_data2 = f.read()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_filename3), 'rb') as f:
+            img_data3 = f.read()
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), img_filename4), 'rb') as f:
+            img_data4 = f.read()
 
 
         with smtplib.SMTP("smtp.gmail.com", 587) as smtp_conn:
-            img_filename = 'image-capture.jpg'
             time_now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
             msg = MIMEMultipart()
@@ -44,9 +56,17 @@ class AlertEmail:
 
             text = MIMEText(json.dumps(gen_dict, sort_keys=False, indent=4))
             msg.attach(text)
-            image = MIMEImage(img_data, name=os.path.basename(img_filename))
-            msg.attach(image)
+            image0 = MIMEImage(img_data0, name=os.path.basename(img_filename0))
+            image1 = MIMEImage(img_data1, name=os.path.basename(img_filename1))
+            image2 = MIMEImage(img_data2, name=os.path.basename(img_filename2))
+            image3 = MIMEImage(img_data3, name=os.path.basename(img_filename3))
+            image4 = MIMEImage(img_data4, name=os.path.basename(img_filename4))
 
+            msg.attach(image0)
+            msg.attach(image1)
+            msg.attach(image2)
+            msg.attach(image3)
+            msg.attach(image4)
 
             smtp_conn.ehlo()
             smtp_conn.starttls() # encrypt traffic

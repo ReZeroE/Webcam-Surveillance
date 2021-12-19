@@ -25,6 +25,7 @@ class Detection:
 
         self.initial_detection_time = -1
         self.start_recording_threshold = 2 # recording start x seconds after detection
+        self.record_vid_name = ""
 
     
     def run_detection(self, frame) -> bool:
@@ -53,7 +54,9 @@ class Detection:
         current_time = datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
         frame_size = (int(self.cap.get(3)), int(self.cap.get(4)))
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        output_vid = cv2.VideoWriter(f"recordings/{current_time}.mp4", fourcc, 20.0, frame_size)
+
+        self.record_vid_name = f"recordings/{current_time}.mp4"
+        output_vid = cv2.VideoWriter(self.record_vid_name, fourcc, 20.0, frame_size)
 
         self.vid_output = output_vid
 
@@ -99,14 +102,15 @@ class Detection:
 
                     # captures an image before the start of recording
                     s, img = self.cap.read()
-                    if s:
-                        print("Image captured...")
-                        cv2.namedWindow("cam-test", cv2.WINDOW_AUTOSIZE)
-                        cv2.imshow("cam-test",img)
-                        cv2.destroyWindow("cam-test")
-                        cv2.imwrite("image-capture.jpg",img) 
 
-                    subprocess.run(f"py -{PYTHONVERSION} ./alert_email.py", shell = True)
+                    # if s:
+                    #     print("Image captured...")
+                    #     cv2.namedWindow("cam-test", cv2.WINDOW_AUTOSIZE)
+                    #     cv2.imshow("cam-test",img)
+                    #     cv2.destroyWindow("cam-test")
+                    #     cv2.imwrite("image-capture.jpg",img) 
+
+                    # subprocess.Popen(f"py -{PYTHONVERSION} ./alert_email.py", shell = True)
 
                     print("Start recording...")
                     self.initialize_recording()
@@ -126,8 +130,15 @@ class Detection:
                     self.stop_recording()
                     recording = False
                     missing_start = True
+
+                    self.generate_image()
+                    print("Images have been successfully generated.")
+                    subprocess.Popen(f"py -{PYTHONVERSION} ./alert_email.py {self.initial_detection_time - 2} {missing_start_time}", shell = True)
+
                     self.initial_detection_time = -1
+
                     print("Recording ended...")
+
                 elif recording:
                     self.vid_output.write(frame)
 
@@ -135,6 +146,41 @@ class Detection:
                 print("Program Terminated...")
                 self.cap.release()
                 cv2.destroyAllWindows()
+
+
+    def generate_image(self):
+        cam = cv2.VideoCapture(os.path.join(os.path.abspath(os.path.dirname(__file__)), self.record_vid_name))
+
+        count = 0
+        currentframe = 0
+        maxframe = 5
+        multiplier = 2 # default frame skips between each image
+
+        length = int(cam.get(cv2.CAP_PROP_FRAME_COUNT))
+
+        if length > 20:
+            multiplier = int(length / 5)
+            print(f"With video frames of {length}, the frame multiplier has been set to {multiplier}")
+
+        while(True):
+            ret, frame = cam.read()
+            if ret and count % multiplier == 0:
+
+                if int(currentframe / multiplier) >= maxframe:
+                    break
+
+                name = f'image-capture({int(currentframe / multiplier)}).jpg'
+                cv2.imwrite(name, frame)
+                currentframe += multiplier
+                count += 1
+            elif ret:
+                count += 1
+            else:
+                break
+
+
+        cam.release()
+        cv2.destroyAllWindows()
 
 
     def run_program(self):
